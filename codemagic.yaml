@@ -1,0 +1,20 @@
+workflows:
+  ios_build:
+    name: iOS Build for Flet
+    instance_type: mac_mini
+    environment:
+      xcode: latest
+      variables:
+        FLET_APP_NAME: "GymFlet"
+        FLET_ORG_NAME: "com.gladiatorcontrol"
+    scripts:
+      - name: Install Python
+        script: brew install python
+      - name: Install Flet CLI
+        script: pip install flet
+      - name: Install dependencies
+        script: pip install -r requirements.txt
+      - name: Build IPA
+        script: flet build ipa --project "gym_ios" --org "com.gladiatorcontrol"
+    artifacts:
+      - build/ios/ipa
