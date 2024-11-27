@@ -3,7 +3,7 @@ name: Build IPA for iOS
 on:
   push:
     branches:
-      - main  # Ejecuta el flujo cuando haya cambios en la rama principal
+      - main
   pull_request:
     branches:
       - main
@@ -21,6 +21,12 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
+
+    - name: Install Flutter SDK
+      run: |
+        git clone https://github.com/flutter/flutter.git -b stable
+        echo "$PWD/flutter/bin" >> $GITHUB_PATH
+        flutter --version
 
     - name: Install Flet CLI
       run: pip install flet
