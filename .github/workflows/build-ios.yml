@@ -1,0 +1,38 @@
+name: Build IPA for iOS
+
+on:
+  push:
+    branches:
+      - main  # Ejecuta el flujo cuando haya cambios en la rama principal
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-ios:
+    name: Build IPA
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Flet CLI
+      run: pip install flet
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Build IPA
+      run: flet build ipa --project "gym_ios" --org "com.gladiatorcontrol"
+
+    - name: Upload IPA as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: gym_ios.ipa
+        path: build/ios/ipa
