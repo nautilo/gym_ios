@@ -27,7 +27,14 @@ jobs:
         git clone https://github.com/flutter/flutter.git -b stable
         echo "$PWD/flutter/bin" >> $GITHUB_PATH
         export PATH="$PATH:$PWD/flutter/bin"
-        flutter --version
+        flutter doctor
+        flutter precache --ios
+
+    - name: Force Update Flutter Dependencies
+      run: |
+        cd build/flutter
+        flutter pub get
+        flutter pub upgrade
 
     - name: Install Flet CLI
       run: pip install flet
